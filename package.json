@@ -1,0 +1,31 @@
+{
+  "name": "medicine",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "bootstrap": "^5.2.1",
+    "framer-motion": "^10.0.0",
+    "jwt-decode": "^3.1.2",
+    "next": "12.3.1",
+    "next-sitemap": "^3.1.43",
+    "nextjs-cors": "^2.1.1",
+    "react": "18.2.0",
+    "react-datepicker": "^4.10.0",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.6.0",
+    "react-select": "^5.7.0",
+    "sharp": "^0.31.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.18",
+    "tailwindcss": "^3.2.2"
+  }
+}

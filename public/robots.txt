@@ -1,0 +1,5 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://dok-aibolit.ru/sitemap.xml
+Sitemap: https://dok-aibolit.ru/server-sitemap1.xml
