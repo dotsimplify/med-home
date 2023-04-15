@@ -12,7 +12,7 @@ class MyDocument extends Document {
           <link rel="icon" type="favicon" href="/favicon.svg" />
           <meta name="theme-color" content="#ffffff" />
         </Head>
-        <body className="font-Roboto ">
+        <body className="font-OpenSans ">
           <Main />
           {/* Modal will be mounted here */}
           <div id="modal" />

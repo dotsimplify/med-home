@@ -43,7 +43,7 @@ const Contact = (props) => {
           name="description"
           content="Хотите купить лекарства оптом? Не смотрите дальше! Наш оптовый бизнес по продаже лекарств предлагает доступ к более чем 10 000 различных лекарств с быстрой доставкой в любую точку России."
         />
-        <link rel="canonical" href="https://dok-aibolit.ru/kontakt" />
+        <link rel="canonical" href="https://dok-aibolit.ru/contacts" />
         <meta
           name="keywords"
           content="оптовая медицина,оптовые лекарства,оптовая фармацевтика ,медицинские препараты оптом ,оптовая продажа лекарств,лекарства оптом для аптек,оптовая закупка медикаментов,оптовые поставки лекарств,оптовая торговля медикаментами,оптовые поставки фармацевтики, 
@@ -85,11 +85,23 @@ const Contact = (props) => {
         onClick={() => props.isOpen && props.setIsOpen(false)}
         className="flex flex-col items-start lg:flex-row"
       >
-        <div className="w-full mt-12 ">
-          <div className="max-w-xs p-8 mx-8 border bg-gray-50 rounded-xl">
+        <div className="w-full text-center ">
+          <div className="p-8 m-2 border md:max-w-xs md:mx-8 bg-gray-50 rounded-xl">
             <h1 className="pb-2 text-xl font-bold text-gray-800">
               Доктор Айболит
             </h1>
+            <p className="py-3 text-sm">office@dok-aibolit.ru</p>
+            <p className="pb-3 text-sm">admin@dok-aibolit.ru</p>
+            <div className="pb-3">
+              <a href="tel:+784212465888" className="text-sm">
+                +784212-465888
+              </a>
+            </div>
+            <div className="pb-3">
+              <a href="tel:+784212466088" className="text-sm ">
+                +784212-466088
+              </a>
+            </div>
             <h2 className="pb-4 text-sm text-gray-700">
               г. Хабаровск, ул.Карла Маркса, 166, корпус "А", 3 этаж
             </h2>
@@ -98,22 +110,22 @@ const Contact = (props) => {
               target="_blank"
               href="https://go.2gis.com/q17n7"
             >
-              <FaLocationArrow className="text-xl text-blue-600" />
+              <FaLocationArrow className="text-xl text-green-600" />
             </a>
           </div>
-          <div className="max-w-xs p-8 mx-8 my-4 border bg-gray-50 rounded-xl">
+          <div className="p-8 m-2 my-4 border md:max-w-xs md:mx-8 bg-gray-50 rounded-xl">
             <div className="flex items-center ">
               <a
-                href={`https://api.whatsapp.com/send?phone=+789141581503&text=${encodeURI(
+                href={`https://api.whatsapp.com/send?phone=+79141581503&text=${encodeURI(
                   `Здравствуйте`
                 )}`}
               >
-                <RiWhatsappFill className="text-3xl cursor-pointer hover:text-green-600" />
+                <RiWhatsappFill className="text-3xl text-gray-600 cursor-pointer hover:text-green-600" />
               </a>
               <a href="https://t.me/+79141581503">
-                <FaTelegram className="mx-5 text-3xl cursor-pointer hover:text-sky-600" />
+                <FaTelegram className="mx-5 text-3xl text-gray-600 cursor-pointer hover:text-sky-600" />
               </a>
-              <FaVk className="text-3xl cursor-pointer hover:text-blue-600" />
+              <FaVk className="text-3xl text-gray-600 cursor-pointer hover:text-blue-600" />
             </div>
           </div>
         </div>

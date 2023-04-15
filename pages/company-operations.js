@@ -1,23 +1,37 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
-import axios from "axios";
-import Pagination from "../components/Pagination";
-import BlogThumbnail from "../components/blog/BlogThumbnail";
+import AboutSidebar from "../components/aboutPages/AboutSidebar";
+import Heading from "../components/Heading";
+import Breadcrumb from "../components/Breadcrumb";
+import ActivityPage from "../components/activityPages/ActivityPage";
+import WholesaleSupply from "../components/activityPages/WholesaleSupply";
+import CancerMedicine from "../components/activityPages/CancerMedicinePage";
+import StoragePage from "../components/activityPages/StoragePage";
+import DeliveryPage from "../components/activityPages/DeliveryPage";
 
-const Stati = ({ articles }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(100);
-  // Get current posts
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentResultsToMap =
-    articles &&
-    articles.length > 0 &&
-    articles.slice(indexOfFirstPost, indexOfLastPost);
+const About = (props) => {
+  const router = useRouter();
+  const { about } = router.query;
 
-  // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  useEffect(() => {}, [postsPerPage]);
+  const [defaultComp, setDefaultComp] = useState(about || "Направления");
+  const arr = [
+    "Направления",
+    "Оптовые поставки лекарств",
+    "Поставка онкопрепаратов",
+    "Качество и хранение",
+    "Доставка",
+  ];
+
+  useEffect(() => {
+    if (!about) {
+      setDefaultComp("Направления");
+    }
+    if (about) {
+      setDefaultComp(about);
+    }
+  }, [about]);
+
   return (
     <>
       <Head>
@@ -26,7 +40,10 @@ const Stati = ({ articles }) => {
           name="description"
           content="Хотите купить лекарства оптом? Не смотрите дальше! Наш оптовый бизнес по продаже лекарств предлагает доступ к более чем 10 000 различных лекарств с быстрой доставкой в любую точку России."
         />
-        <link rel="canonical" href="https://dok-aibolit.ru/stati" />
+        <link
+          rel="canonical"
+          href="https://dok-aibolit.ru/company-who-we-are"
+        />
         <meta
           name="keywords"
           content="оптовая медицина,оптовые лекарства,оптовая фармацевтика ,медицинские препараты оптом ,оптовая продажа лекарств,лекарства оптом для аптек,оптовая закупка медикаментов,оптовые поставки лекарств,оптовая торговля медикаментами,оптовые поставки фармацевтики, 
@@ -64,25 +81,28 @@ const Stati = ({ articles }) => {
         <meta name="twitter:image" content="https://dok-aibolit.ru/logo.png" />
         <meta name="twitter:creator" content="@doktoraibalit" />
       </Head>
-      <section className="pb-12 bg-gray-50 sm:pb-16">
-        <div className="px-6 mx-auto max-w-[2000px] lg:px-8">
-          <h2 className="pt-8 text-2xl font-semibold leading-8 text-center text-gray-900 md:pt-16">
-            ПРЕСС-ЦЕНТР
-          </h2>
-          <div className="flex flex-wrap gap-4 mx-auto mt-10 ">
-            {currentResultsToMap &&
-              currentResultsToMap.length > 0 &&
-              currentResultsToMap.map((one) => {
-                return <BlogThumbnail data={one} key={one._id} />;
-              })}
-          </div>
-          <div className="py-4">
-            <Pagination
-              currentPage={currentPage}
-              postsPerPage={postsPerPage}
-              totalPosts={articles && articles.length}
-              paginate={paginate}
-            />
+      <section onClick={() => props.isOpen && props.setIsOpen(false)}>
+        <div className="md:py-6 mx-auto max-w-[2000px] lg:px-8">
+          <Heading text={defaultComp} />
+          <Breadcrumb bg="bg-white" links={[{ name: defaultComp }]} />
+
+          <div className="relative grid grid-cols-1 gap-3 pb-12 md:grid-cols-4">
+            <div className="hidden md:block">
+              <AboutSidebar
+                arr={arr}
+                active={defaultComp}
+                setActive={setDefaultComp}
+              />
+            </div>
+            <div className="col-span-3">
+              {defaultComp === "Направления" && <ActivityPage />}
+              {defaultComp === "Оптовые поставки лекарств" && (
+                <WholesaleSupply />
+              )}
+              {defaultComp === "Поставка онкопрепаратов" && <CancerMedicine />}
+              {defaultComp === "Качество и хранение" && <StoragePage />}
+              {defaultComp === "Доставка" && <DeliveryPage />}
+            </div>
           </div>
         </div>
       </section>
@@ -90,17 +110,4 @@ const Stati = ({ articles }) => {
   );
 };
 
-export default Stati;
-
-export async function getStaticProps() {
-  const allBlogs = axios.get(`${process.env.NEXT_PUBLIC_API_URL}/articles`);
-
-  const responses = await Promise.all([allBlogs]);
-
-  return {
-    props: {
-      articles: responses[0].data,
-    },
-    revalidate: 10,
-  };
-}
+export default About;

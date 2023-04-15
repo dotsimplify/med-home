@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        Roboto: ["Roboto", "Arial", "sans-serif"],
+        OpenSans: ["OpenSans", "Arial", "sans-serif"],
       },
       lineHeight: {
         "extra-loose": "4rem",

@@ -7,13 +7,13 @@ const Pagination = (props) => {
     pageNumbers.push(i);
   }
   return (
-    <ol className="flex justify-center gap-1 text-xs font-medium text-white">
+    <ol className="flex justify-end gap-1 text-xs font-medium text-white">
       {pageNumbers.map((number) => {
         return (
           <li
             key={number}
             onClick={() => props.paginate(number)}
-            className={`block p-1 px-3.5 rounded-full leading-8 text-xl text-center border border-gray-100  cursor-pointer ${
+            className={`block  px-3  leading-8 text-xs text-center border border-gray-100  cursor-pointer ${
               props.currentPage === number ? "bg-theme-green text-white" : ""
             }`}
           >

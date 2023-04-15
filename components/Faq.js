@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Faq = ({ data }) => {
+const Faq = ({ data, html }) => {
   const [open, setOpen] = useState(false);
   return (
     <div
@@ -34,7 +34,11 @@ const Faq = ({ data }) => {
           open ? "" : "hidden"
         } px-4 pb-5 sm:px-6 sm:pb-6 text-gray-500`}
       >
-        <h4 className="capitalize">{data.answer}</h4>
+        {html ? (
+          <div dangerouslySetInnerHTML={{ __html: data.answer }} />
+        ) : (
+          <h4 className="capitalize">{data.answer}</h4>
+        )}
       </div>
     </div>
   );

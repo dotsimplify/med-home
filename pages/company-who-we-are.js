@@ -1,10 +1,31 @@
-import React, { useState } from "react";
-import Profile from "../components/Profile";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import Profile from "../components/aboutPages/Profile";
 import Head from "next/head";
 import Image from "next/image";
+import AboutSidebar from "../components/aboutPages/AboutSidebar";
+import Heading from "../components/Heading";
+import Breadcrumb from "../components/Breadcrumb";
+import Partners from "../components/aboutPages/Partners";
+import Presentation from "../components/aboutPages/Presentation";
+import Vacancies from "../components/aboutPages/Vacancies";
 
-const About = (props) => {
-  const [defaultComp, setDefaultComp] = useState("О компании");
+const CompanyOperations = (props) => {
+  const router = useRouter();
+  const { about } = router.query;
+
+  const [defaultComp, setDefaultComp] = useState(about || "О нас");
+  const arr = ["О нас", "Партнеры", "Лицензии", "Презентация", "Вакансии"];
+
+  useEffect(() => {
+    if (!about) {
+      setDefaultComp("О нас");
+    }
+    if (about) {
+      setDefaultComp(about);
+    }
+  }, [about]);
+
   return (
     <>
       <Head>
@@ -55,60 +76,62 @@ const About = (props) => {
         <meta name="twitter:creator" content="@doktoraibalit" />
       </Head>
       <section onClick={() => props.isOpen && props.setIsOpen(false)}>
-        <div className="flex justify-center mx-auto  max-w-[2000px] pt-8 text-base font-semibold ">
-          <h1
-            onClick={() => setDefaultComp("О компании")}
-            className={`pt-1 text-base  uppercase cursor-pointer ${
-              defaultComp === "О компании"
-                ? "border-b-4 border-theme-green"
-                : "border-b-4 border-gray-500"
-            } mr-8 `}
-          >
-            О компании
-          </h1>
-          <h1
-            onClick={() => setDefaultComp("Сертификация")}
-            className={`pt-1 text-base  uppercase cursor-pointer ${
-              defaultComp === "Сертификация"
-                ? "border-b-4 border-theme-green"
-                : "border-b-4 border-gray-500"
-            } `}
-          >
-            Сертификация
-          </h1>
-        </div>
-        {defaultComp === "О компании" && <Profile />}
-        {defaultComp === "Сертификация" && (
-          <div className="grid items-center mx-auto  max-w-[2000px] grid-cols-2 gap-4 p-8 py-12">
-            <div className="mx-auto">
-              <Image
-                height="500"
-                width="500"
-                src="/images/licence1.png"
-                alt="business licence"
+        <div className="md:py-6 mx-auto max-w-[2000px] lg:px-8">
+          <Heading text={defaultComp} />
+          <Breadcrumb bg="bg-white" links={[{ name: defaultComp }]} />
+
+          <div className="relative grid grid-cols-1 gap-3 pb-12 md:grid-cols-4">
+            <div className="hidden md:block">
+              <AboutSidebar
+                arr={arr}
+                active={defaultComp}
+                setActive={setDefaultComp}
               />
             </div>
-            <div className="mx-auto">
-              <Image
-                height="500"
-                width="500"
-                src="/images/licence2.png"
-                alt="business licence 2"
-              />
-            </div>
-            <div className="mx-auto">
-              <Image
-                height="500"
-                width="500"
-                src="/images/licence3.png"
-                alt="business licence 3"
-              />
+            <div className="col-span-3">
+              {defaultComp === "О нас" && <Profile />}
+              {defaultComp === "Партнеры" && <Partners />}
+              {defaultComp === "Презентация" && <Presentation />}
+              {defaultComp === "Вакансии" && <Vacancies />}
+              {defaultComp === "Лицензии" && (
+                <>
+                  <p className="px-6 text-xl font-extrabold leading-8 tracking-tight text-theme-green sm:text-3xl">
+                    Лицензии
+                  </p>
+                  <div className="grid items-center grid-cols-1 mx-auto  max-w-[2000px] md:grid-cols-2 gap-4 p-8 pb-12">
+                    <div className="mx-auto">
+                      <Image
+                        height="500"
+                        width="500"
+                        src="/images/licence1.png"
+                        alt="business licence"
+                      />
+                    </div>
+                    <div className="mx-auto">
+                      <Image
+                        height="500"
+                        width="500"
+                        src="/images/licence2.png"
+                        alt="business licence 2"
+                      />
+                    </div>
+                    <div className="mx-auto">
+                      <Image
+                        height="500"
+                        width="500"
+                        src="/images/licence3.png"
+                        alt="business licence 3"
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
-        )}
+        </div>
       </section>
     </>
   );
 };
 
-export default About;
+export default CompanyOperations;

@@ -102,7 +102,7 @@ const CallToAction = () => {
                   потребительский опыт и описательную информацию для ваших
                   запросов.
                 </p>
-                <Link href="/kontakt">
+                <Link href="/contacts">
                   <a
                     className="flex items-center justify-center w-full px-4 py-4 mt-8 text-base font-semibold text-white transition-all duration-200 border-2 border-transparent rounded-md bg-theme-green hover:bg-theme-green/80 "
                     role="button"

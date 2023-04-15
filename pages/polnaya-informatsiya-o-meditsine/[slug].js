@@ -74,11 +74,11 @@ const ProductsByLink = (props) => {
         className=" max-w-[2000px] mx-auto"
       >
         <div className=" lg:px-10">
-          <div className="flex flex-col items-start lg:flex-row">
-            <div className="w-1/2 ">
+          <div className="flex flex-col items-start justify-between lg:flex-row">
+            <div className="w-full md:w-1/3">
               <img
                 src={image}
-                className=" max-h-[24rem] w-full object-fill  lg:rounded-tr-[3rem]"
+                className=" max-h-[24rem]  object-fill  lg:rounded-tr-[3rem]"
                 alt="single"
               />
               <div className="grid grid-flow-row grid-cols-5 gap-4 px-4 mt-4 md:px-4 lg:grid-cols-8 ">

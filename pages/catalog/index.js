@@ -1,21 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Head from "next/head";
 import axios from "axios";
-import SingleProduct from "../components/products/SingleProduct";
-import Chips from "../components/Chips";
+import CategoryComp from "../../components/products/CategoryComp";
+import CategoryAccordian from "../../components/products/CategoryAccordian";
+import CategoryWithSubCategory from "../../components/products/CategoryWithSubCategory";
+import Heading from "../../components/Heading";
+import Breadcrumb from "../../components/Breadcrumb";
 
 const Products = (props) => {
-  const [category, setCategory] = useState("");
-  const filtered =
-    props.products &&
-    props.products.length > 0 &&
-    props.products.filter((one) => {
-      if (category) {
-        return one.category === category;
-      }
-      return true;
-    });
-  useEffect(() => {}, [category]);
   return (
     <>
       <Head>
@@ -66,36 +58,27 @@ const Products = (props) => {
         onClick={() => props.isOpen && props.setIsOpen(false)}
         className="pb-12 bg-gray-50 sm:pb-16"
       >
-        <div className="px-6 mx-auto max-w-[2000px] lg:px-8">
-          <h2 className="py-8 text-2xl font-semibold leading-8 text-center text-gray-900 lg:pb-2 lg:pt-16">
-            Список доступных продуктов
-          </h2>
-          <div className="py-2 lg:py-8">
-            <Chips setCategory={() => setCategory("")} categoryName="Все" />
-            {props.categories &&
-              props.categories.length > 0 &&
-              props.categories.map((single) => {
-                return (
-                  <Chips
-                    key={single._id}
-                    setCategory={() => setCategory(single.categoryName)}
-                    categoryName={single.categoryName}
-                  />
-                );
-              })}
-          </div>
-          {filtered && filtered.length > 0 && (
-            <div className="grid grid-cols-1 gap-6 mt-10 lg:mt-4 lg:gap-4 lg:grid-cols-4">
-              {filtered.map((one) => {
-                return <SingleProduct key={one._id} data={one} />;
-              })}
+        <div className=" pb-12 md:py-6 mx-auto max-w-[2000px] lg:px-8">
+          <Heading text="КАТАЛОГ" />
+          <Breadcrumb links={[{ name: "КАТАЛОГ" }]} />
+
+          <div className="grid grid-cols-1 md:grid-cols-4 md:gap-3">
+            <div className="hidden md:block">
+              <CategoryAccordian items={props.categories} />
             </div>
-          )}
-          {filtered && !filtered.length && (
-            <h2 className="py-4 font-medium text-gray-800">
-              Лекарства не найдены
-            </h2>
-          )}
+            <div className="col-span-3">
+              {props.categories &&
+                props.categories.length > 0 &&
+                props.categories.map((single) => {
+                  return (
+                    <CategoryWithSubCategory
+                      key={single._id}
+                      category={single}
+                    />
+                  );
+                })}
+            </div>
+          </div>
         </div>
       </section>
     </>
@@ -117,6 +100,5 @@ export async function getStaticProps() {
       products: responses[0].data?.data,
       categories: responses[1].data,
     },
-    revalidate: 10,
   };
 }

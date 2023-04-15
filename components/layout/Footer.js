@@ -8,10 +8,10 @@ const Footer = () => {
   const year = date.getFullYear();
   return (
     <footer className="bg-gray-200">
-      <div className="max-w-[2000px] px-8 py-16 mx-auto sm:px-6 lg:px-8">
+      <div className="max-w-[2000px] px-8 py-8 md:py-16 mx-auto sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div>
-            <img src="/logo.svg" className="h-6 mr-5 sm:h-16" alt="logo" />
+            <img src="/logo.svg" className="h-16 mr-5 " alt="logo" />
             <p className="max-w-xs mt-4 text-sm text-gray-600">
               Мы здесь, чтобы помочь вам найти лучшие предложения на
               высококачественные лекарства
@@ -31,8 +31,8 @@ const Footer = () => {
                 <Link href="/company-who-we-are">
                   <a className="cursor-pointer hover:underline">О компании</a>
                 </Link>
-                <Link href="/kontakt">
-                  <a className="cursor-pointer hover:underline">Контакт</a>
+                <Link href="/contacts">
+                  <a className="cursor-pointer hover:underline">КОНТАКТЫ</a>
                 </Link>
                 <Link href="/stati">
                   <a className="cursor-pointer hover:underline">Статьи</a>
@@ -43,12 +43,12 @@ const Footer = () => {
             <div>
               <p className="font-medium">Полезные ссылки</p>
               <nav className="flex flex-col mt-4 space-y-2 text-sm text-gray-500">
-                <Link href="/products">
+                <Link href="/catalog">
                   <a className="cursor-pointer hover:underline">
                     Все лекарства
                   </a>
                 </Link>
-                <Link href="/products">
+                <Link href="/catalog">
                   <a className="cursor-pointer hover:underline">
                     Лекарства в предложении
                   </a>

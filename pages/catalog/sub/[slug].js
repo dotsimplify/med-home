@@ -1,23 +1,37 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import axios from "axios";
-import Pagination from "../components/Pagination";
-import BlogThumbnail from "../components/blog/BlogThumbnail";
+import SingleProduct from "../../../components/products/SingleProduct";
+import Pagination from "../../../components/Pagination";
+import CategoryAccordian from "../../../components/products/CategoryAccordian";
+import Heading from "../../../components/Heading";
+import Breadcrumb from "../../../components/Breadcrumb";
 
-const Stati = ({ articles }) => {
+const Products = (props) => {
+  const router = useRouter();
+  if (!router.isFallback && !props.categories) {
+    return "Loading Products ...";
+  }
+  const indexedArray =
+    props.categories &&
+    props.categories.length > 0 &&
+    props.categories.findIndex((one) => one.categoryName === router.query.slug);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(100);
+  const [postsPerPage, setPostsPerPage] = useState(20);
   // Get current posts
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentResultsToMap =
-    articles &&
-    articles.length > 0 &&
-    articles.slice(indexOfFirstPost, indexOfLastPost);
+    props.products &&
+    props.products.length > 0 &&
+    props.products.slice(indexOfFirstPost, indexOfLastPost);
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   useEffect(() => {}, [postsPerPage]);
+
   return (
     <>
       <Head>
@@ -26,7 +40,7 @@ const Stati = ({ articles }) => {
           name="description"
           content="Хотите купить лекарства оптом? Не смотрите дальше! Наш оптовый бизнес по продаже лекарств предлагает доступ к более чем 10 000 различных лекарств с быстрой доставкой в любую точку России."
         />
-        <link rel="canonical" href="https://dok-aibolit.ru/stati" />
+        <link rel="canonical" href="https://dok-aibolit.ru/products" />
         <meta
           name="keywords"
           content="оптовая медицина,оптовые лекарства,оптовая фармацевтика ,медицинские препараты оптом ,оптовая продажа лекарств,лекарства оптом для аптек,оптовая закупка медикаментов,оптовые поставки лекарств,оптовая торговля медикаментами,оптовые поставки фармацевтики, 
@@ -64,25 +78,42 @@ const Stati = ({ articles }) => {
         <meta name="twitter:image" content="https://dok-aibolit.ru/logo.png" />
         <meta name="twitter:creator" content="@doktoraibalit" />
       </Head>
-      <section className="pb-12 bg-gray-50 sm:pb-16">
-        <div className="px-6 mx-auto max-w-[2000px] lg:px-8">
-          <h2 className="pt-8 text-2xl font-semibold leading-8 text-center text-gray-900 md:pt-16">
-            ПРЕСС-ЦЕНТР
-          </h2>
-          <div className="flex flex-wrap gap-4 mx-auto mt-10 ">
-            {currentResultsToMap &&
-              currentResultsToMap.length > 0 &&
-              currentResultsToMap.map((one) => {
-                return <BlogThumbnail data={one} key={one._id} />;
-              })}
-          </div>
-          <div className="py-4">
-            <Pagination
-              currentPage={currentPage}
-              postsPerPage={postsPerPage}
-              totalPosts={articles && articles.length}
-              paginate={paginate}
-            />
+      <section
+        onClick={() => props.isOpen && props.setIsOpen(false)}
+        className="pb-12 bg-gray-50 sm:pb-16"
+      >
+        <div className="md:px-6 mx-auto max-w-[2000px] lg:px-8">
+          <Heading text={router.query.slug} />
+          <Breadcrumb links={[{ name: router.query.slug }]} />
+          <div className="grid grid-cols-1 md:grid-cols-4 md:gap-3">
+            <div className="hidden md:mt-4 md:block">
+              <CategoryAccordian
+                indexedArray={[indexedArray]}
+                items={props.categories}
+              />
+            </div>
+            <div className="px-2 md:col-span-3 md:px-0">
+              {currentResultsToMap && currentResultsToMap.length > 0 && (
+                <div className="grid grid-cols-1 gap-6 lg:mt-4 lg:gap-4 lg:grid-cols-4">
+                  {currentResultsToMap.map((one) => {
+                    return <SingleProduct key={one._id} data={one} />;
+                  })}
+                </div>
+              )}
+              {props.products && !props.products.length && (
+                <h2 className="py-4 font-medium text-gray-500">
+                  Лекарства не найдены
+                </h2>
+              )}
+              <div className="py-4">
+                <Pagination
+                  currentPage={currentPage}
+                  postsPerPage={postsPerPage}
+                  totalPosts={props.products && props.products.length}
+                  paginate={paginate}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -90,17 +121,39 @@ const Stati = ({ articles }) => {
   );
 };
 
-export default Stati;
+export default Products;
 
-export async function getStaticProps() {
-  const allBlogs = axios.get(`${process.env.NEXT_PUBLIC_API_URL}/articles`);
+export async function getStaticPaths() {
+  // Call an external API endpoint to get posts
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`);
+  const posts = await res.data.data;
 
-  const responses = await Promise.all([allBlogs]);
+  // Get the paths we want to pre-render based on posts
+  const paths = posts.map((post) => ({
+    params: { slug: post.subCategory },
+  }));
+
+  // We'll pre-render only these paths at build time.
+  // { fallback: false } means other routes should 404.
+  return { paths, fallback: "blocking" };
+}
+
+export async function getStaticProps({ params }) {
+  const res = axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/products-by-sub-category/${encodeURI(
+      params.slug
+    )}`
+  );
+  const categories = axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/product-categories`
+  );
+
+  const responses = await Promise.all([res, categories]);
 
   return {
     props: {
-      articles: responses[0].data,
+      products: responses[0].data,
+      categories: responses[1].data,
     },
-    revalidate: 10,
   };
 }

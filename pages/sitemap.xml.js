@@ -4,9 +4,9 @@ export const getServerSideProps = ({ res }) => {
   const baseUrl = "https://dok-aibolit.ru";
   const paths = [
     "privacy-policy",
-    "kontakt",
+    "contacts",
     "index",
-    "products",
+    "catalog",
     "stati",
     "company-who-we-are",
     "terms-and-conditions",
