@@ -142,6 +142,6 @@ export async function getStaticProps() {
       articles: responses[1].data,
       faqs: responses[2].data,
     },
-    revalidate: 10,
+    revalidate: 30,
   };
 }

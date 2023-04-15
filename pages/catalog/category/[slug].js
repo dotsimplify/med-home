@@ -161,7 +161,7 @@ export async function getStaticProps({ params }) {
   const subCategories = axios.get(
     `${
       process.env.NEXT_PUBLIC_API_URL
-    }/get-sub-categories-by-category/${slugify(params.slug)}`
+    }/get-sub-categories-by-category/${encodeURI(params.slug)}`
   );
 
   const responses = await Promise.all([res, getCategories, subCategories]);
@@ -172,5 +172,6 @@ export async function getStaticProps({ params }) {
       categories: responses[1].data,
       relatedSubCategories: responses[2].data?.subCategories,
     },
+    revalidate: 30,
   };
 }

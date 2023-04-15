@@ -187,6 +187,7 @@ export async function getStaticProps({ params }) {
         data: responses[0].data,
         products: responses[1].data.data,
       },
+      revalidate: 30,
     };
   } catch (error) {
     return {
