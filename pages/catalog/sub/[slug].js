@@ -126,16 +126,22 @@ export default Products;
 export async function getStaticPaths() {
   // Call an external API endpoint to get posts
   const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`);
-  const posts = await res.data.data;
+  const posts = await res.data?.data;
 
   // Get the paths we want to pre-render based on posts
-  const paths = posts.map((post) => ({
+  const paths1 = posts.map((post) => ({
     params: { slug: post.subCategory },
   }));
-
+  const paths = [];
+  // Add params to every slug obj returned from api
+  for (let post of posts) {
+    if (post.subCategory) {
+      paths.push({ params: { slug: post.subCategory } });
+    }
+  }
   // We'll pre-render only these paths at build time.
   // { fallback: false } means other routes should 404.
-  return { paths, fallback: "blocking" };
+  return { paths, fallback: false };
 }
 
 export async function getStaticProps({ params }) {
