@@ -35,7 +35,7 @@ const Products = (props) => {
   return (
     <>
       <Head>
-        <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta content="text/html; charset=UTF-8" />
         <meta
           name="description"
           content="Хотите купить лекарства оптом? Не смотрите дальше! Наш оптовый бизнес по продаже лекарств предлагает доступ к более чем 10 000 различных лекарств с быстрой доставкой в любую точку России."
@@ -94,7 +94,7 @@ const Products = (props) => {
             </div>
             <div className="px-2 md:col-span-3 md:px-0">
               {currentResultsToMap && currentResultsToMap.length > 0 && (
-                <div className="grid grid-cols-1 gap-6 lg:mt-4 lg:gap-4 lg:grid-cols-4">
+                <div className="grid grid-cols-1 gap-6 lg:mt-4 lg:gap-4 lg:grid-cols-3">
                   {currentResultsToMap.map((one) => {
                     return <SingleProduct key={one._id} data={one} />;
                   })}

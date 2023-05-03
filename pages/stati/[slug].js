@@ -14,7 +14,7 @@ const Slug = ({ data }) => {
   return (
     <>
       <Head>
-        <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta content="text/html; charset=UTF-8" />
         <meta
           name="description"
           content="Хотите купить лекарства оптом? Не смотрите дальше! Наш оптовый бизнес по продаже лекарств предлагает доступ к более чем 10 000 различных лекарств с быстрой доставкой в любую точку России."

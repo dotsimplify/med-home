@@ -22,7 +22,7 @@ const ProductsByLink = (props) => {
   return (
     <>
       <Head>
-        <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta content="text/html; charset=UTF-8" />
         <meta
           name="description"
           content="Хотите купить лекарства оптом? Не смотрите дальше! Наш оптовый бизнес по продаже лекарств предлагает доступ к более чем 10 000 различных лекарств с быстрой доставкой в любую точку России."
@@ -102,9 +102,11 @@ const ProductsByLink = (props) => {
               <h1 className="mt-6 text-2xl font-bold tracking-wider text-gray-700 capitalize ">
                 {props.data.title}
               </h1>
-              <h2 className="pt-4 text-3xl font-bold text-theme-green ">
-                {props.data.price} ₽
-              </h2>
+              {props.data.price > 0 && (
+                <h2 className="pt-4 text-3xl font-bold text-theme-green ">
+                  {props.data.price} ₽
+                </h2>
+              )}
               <h3 className="pt-4 text-lg tracking-wide text-gray-500 ">
                 <BsFillCheckCircleFill className="inline mr-3 text-xl text-theme-green" />
                 В наличии
@@ -120,7 +122,7 @@ const ProductsByLink = (props) => {
                 className="inline-flex px-8 py-2 mt-4 text-lg font-bold text-white transition-all duration-200 border border-transparent rounded bg-theme-green font-pj hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600"
                 role="button"
               >
-                Заказать сейчас
+                {props.data.price > 0 ? "Заказать сейчас" : "Узнать цену"}
               </a>
             </div>
           </div>
@@ -141,7 +143,7 @@ const ProductsByLink = (props) => {
                 Similar listings
               </h1>
               <div className="py-12 overflow-x-auto ">
-                <div className=" flex space-x-5 w-[150rem]">
+                <div className=" flex space-x-5 w-[400rem] px-4 ">
                   {filtered.map((item) => {
                     return <SingleProduct key={item._id} data={item} />;
                   })}

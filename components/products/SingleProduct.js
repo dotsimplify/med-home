@@ -14,15 +14,17 @@ const SingleProduct = ({ data }) => {
                   className="object-cover w-full lg:max-w-[300px] 2xl:max-w-full min-h-[300px]  transition-all duration-300 group-hover:scale-125"
                   src={data.images[0]?.url}
                   alt={data.title}
-                  height="300"
-                  width="400"
+                  height="800"
+                  width="1080"
                 />
               )}
-              <div className="absolute left-1/3 bottom-4">
-                <p className="sm:px-3 sm:py-1.5 px-2 py-1.5 border shadow text-[10px]  sm:text-xs font-bold tracking-wide text-theme-green uppercase bg-white rounded-full">
-                  от {data.price} ₽
-                </p>
-              </div>
+              {data.price > 0 && (
+                <div className="absolute left-1/3 bottom-4">
+                  <p className="sm:px-3 sm:py-1.5 bg-black px-2 py-1.5 border shadow text-[10px]  sm:text-xs font-bold tracking-wide text-white uppercase  rounded-full">
+                    от {data.price} ₽
+                  </p>
+                </div>
+              )}
             </div>
             {data.offer && (
               <div className="absolute left-3 top-3">
